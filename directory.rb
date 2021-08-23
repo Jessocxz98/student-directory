@@ -13,6 +13,7 @@ def input_students
     name = gets.chomp
   end
 end
+
 def interactive_menu
   loop do
   # 1. print the menu and ask the user what to do
@@ -21,16 +22,20 @@ def interactive_menu
     process(gets.chomp)
   end
 end
+
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
+  puts "3. Save the list to students.csv"
   puts "9. Exit"
 end
+
 def show_students
   print_header
   print_students_list
   print_footer
 end
+
 def process(selection)
   # 3. do what the user has asked
   case selection
@@ -38,6 +43,8 @@ def process(selection)
     input_students
   when "2"
     show_students
+  when "3"
+    save_students
   when "9"
     exit # this will cause the program to terminate
   else
@@ -57,6 +64,16 @@ end
 
 def print_footer
   puts "Overall, we have #{@students.count} great students"
+end
+
+def save_students
+  file = File.open("students.csv", "w")
+  @students.each do |student|
+    student_data = [student[:name], student[:cohort]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  end
+  file.close
 end
 
 #nothing happens until we call the methods
